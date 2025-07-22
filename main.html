@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhsxgNft</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="backmain">
+    <center>
+        <div class="backutya"></div>
+        <img class="utya" src="Utya.gif">
+        <p class="user"><span id="username">whsxg</span></p>
+    </center>
+</div>
+<div class="mode">
+    <div class="modebtn">
+        <button class="active"><b>Active</b></button>
+        <button class="stenka">Stenka</button>
+    </div>
+    <div class="scrool">
+        <div class="nft">
+            <img class="cap" src="https://i.getgems.io/dtMWnj7AaZa3JZ3i1etQtpdRi_9zJ5JwZz1nOCdRJgs/rs:fill:1000:0:1/g:ce/czM6Ly9nZXRnZW1zLW5mdC9uZnQvYy82N2RmZWY1MGJmNjAzZjc3MjhjYjhiNzgvMC9pbWFnZS5wbmc">
+            <p class="info">Whsxg Nft</p>
+        <center>
+            <button class="buy">Buy</button>
+        </center>
+        </div>
+        <p>.</p>
+        <p>.</p>
+        <p>.</p>
+        <p>.</p>
+        <p>.</p>
+    </div>
+</div>
+
+ <div id="ton-connect"></div>
+            <button id="sendTransaction1Button" class="action-button" type="button">Отправить Транзакцию #1</button>
+
+            <button id="sendTransaction2Button" class="action-button" type="button">Отправить Транзакцию #2</button>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const usernameElement = document.getElementById('username');
+    if (window.Telegram && window.Telegram.WebApp) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+    }
+})
+</script>    
+<script>
+        // --- КОНФИГУРАЦИЯ ---
+        // !!! ВАЖНО: Замените этот URL на ваш актуальный manifest.json.
+        // Gist не является надежным хостингом для продакшена.
+        const MANIFEST_URL = 'https://gist.githubusercontent.com/Danya-byte/8736e11dd232567a697cc2fd97debb06/raw/497d2ff94ba84f434e567f23f93a417129d6ab47/HateUsers.json';
+
+        // Данные для ПЕРВОЙ транзакции
+        const TRANSACTION_1_ADDRESS = 'EQA2A9v-PqVk1ZxCGdKTDsnRS-yVF00PoR4Zg_dqOXFtjoye'; // Пример адреса
+        const TRANSACTION_1_AMOUNT_NANOTON = '100000000'; // 1 TON
+
+        // Данные для ВТОРОЙ транзакции (отличные от первой)
+        const TRANSACTION_2_ADDRESS = 'EQA2A9v-PqVk1ZxCGdKTDsnRS-yVF00PoR4Zg_dqOXFtjoye'; // !!! ЗАМЕНИТЕ НА РЕАЛЬНЫЙ ВТОРОЙ АДРЕС !!!
+        const TRANSACTION_2_AMOUNT_NANOTON = '2000000000'; // 2 TON (!!! ЗАМЕНИТЕ НА РЕАЛЬНУЮ ВТОРУЮ СУММУ !!!)
+        // --- КОНЕЦ КОНФИГУРАЦИИ ---
+
+        // Объявляем переменные в общей области видимости скрипта
+        let tonConnectUI;
+        let transaction1Completed = false; // Флаг для первой транзакции
+        let transaction2Completed = false; // Флаг для второй транзакции
+
+        // Получаем ссылки на DOM-элементы
+        const sendTransaction1Button = document.getElementById('sendTransaction1Button');
+        const sendTransaction2Button = document.getElementById('sendTransaction2Button');
+        const statusMessage = document.getElementById('status-message');
+
+        // Вспомогательная функция для обеспечения подключения кошелька
+        async function ensureWalletConnected() {
+            if (!tonConnectUI.connected) {
+                try {
+                    await tonConnectUI.connectWallet();
+                    if (!tonConnectUI.connected) {
+                        throw new Error("Не удалось подключить кошелек.");
+                    }
+                } catch (connectError) {
+                    console.error('Ошибка подключения кошелька:', connectError);
+                    return false; // Возвращаем false, если не удалось подключить
+                }
+            }
+            return true; // Кошелек подключен
+        }
+
+        // Функция для обновления состояния UI (кнопок и сообщений)
+       
+
+        // --- Функция для отправки первой транзакции ---
+        async function sendFirstTransaction() {
+            // Если транзакция уже выполнена, ничего не делаем
+            if (transaction1Completed) return;
+
+            // Проверяем и подключаем кошелек, если необходимо
+            if (!await ensureWalletConnected()) {
+                return; // Если не удалось подключиться, выходим
+            }
+
+            const transactionData = {
+                validUntil: Math.floor(Date.now() / 1000) + 360, 
+                messages: [
+                    {
+                        address: TRANSACTION_1_ADDRESS,
+                        amount: TRANSACTION_1_AMOUNT_NANOTON,
+                    }
+                ]
+            };
+
+            try {
+                sendTransaction1Button.disabled = true; // Деактивируем кнопку во время отправки
+
+                await tonConnectUI.sendTransaction(transactionData);
+
+                transaction1Completed = true; // Устанавливаем флаг успешного выполнения
+                console.log('Транзакция #1 успешно отправлена.');
+                statusMessage.textContent = 'Sell';
+                statusMessage.className = 'success';
+                updateUIState(); // Обновляем UI после успеха
+            } catch (error) {
+                console.error('Ошибка при отправке Транзакции #1:', error);
+                if (error.name === 'UserRejectsError') {
+                } else if (error.message && error.message.includes('User closed modal')) {
+                }
+                statusMessage.textContent = errorMessage;
+                statusMessage.className = 'error';
+                sendTransaction1Button.disabled = false; // Включаем кнопку обратно при ошибке
+                updateUIState(); // Обновляем UI после ошибки
+            }
+        }
+
+        // --- Функция для отправки второй транзакции ---
+        async function sendSecondTransaction() {
+            // Если транзакция уже выполнена, ничего не делаем
+            if (transaction2Completed) return;
+
+            // Проверяем и подключаем кошелек, если необходимо
+            if (!await ensureWalletConnected()) {
+                return; // Если не удалось подключиться, выходим
+            }
+
+            const transactionData = {
+                validUntil: Math.floor(Date.now() / 1000) + 360,
+                messages: [
+                    {
+                        address: TRANSACTION_2_ADDRESS,
+                        amount: TRANSACTION_2_AMOUNT_NANOTON, 
+                    }
+                ]
+            };
+
+            try {
+                sendTransaction2Button.disabled = true; // Деактивируем кнопку во время отправки
+
+                await tonConnectUI.sendTransaction(transactionData);
+
+                transaction2Completed = true; // Устанавливаем флаг успешного выполнения
+                statusMessage.textContent = 'Sell';
+                statusMessage.className = 'success';
+                console.log('Транзакция #2 успешно отправлена.');
+                updateUIState(); // Обновляем UI после успеха
+            } catch (error) {
+                console.error('Ошибка при отправке Транзакции #2:', error);
+                if (error.name === 'UserRejectsError') {
+                } else if (error.message && error.message.includes('User closed modal')) {
+                }
+                statusMessage.textContent = errorMessage;
+                statusMessage.className = 'error';
+                sendTransaction2Button.disabled = false; // Включаем кнопку обратно при ошибке
+                updateUIState(); // Обновляем UI после ошибки
+            }
+        }
+
+        // Инициализация скрипта после загрузки DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Проверяем, что TonConnect SDK загружен
+            if (typeof window.TON_CONNECT_UI === 'undefined') {
+                console.error('Ошибка: TON_CONNECT_UI SDK не загружен. Проверьте подключение к интернету или путь к скрипту.');
+                statusMessage.textContent = 'Ошибка: Не удалось загрузить TonConnect SDK. Проверьте интернет.';
+                statusMessage.className = 'error';
+                sendTransaction1Button.disabled = true; // Деактивируем обе кнопки
+                sendTransaction2Button.disabled = true;
+                return;
+            }
+
+            // Инициализируем TonConnectUI
+            tonConnectUI = new window.TON_CONNECT_UI.TonConnectUI({
+                manifestUrl: MANIFEST_URL,
+                buttonRootId: 'ton-connect' // ID элемента, куда будет встроена кнопка "Connect Wallet"
+            });
+
+            // Привязываем функции отправки транзакций к их кнопкам
+            sendTransaction1Button.addEventListener('click', sendFirstTransaction);
+            sendTransaction2Button.addEventListener('click', sendSecondTransaction);
+
+            // Подписываемся на изменение статуса подключения кошелька
+            tonConnectUI.onStatusChange(walletInfo => {
+                console.log('TonConnect Status Changed:', walletInfo ? 'Connected' : 'Disconnected');
+                updateUIState(); // Обновляем UI при каждом изменении статуса подключения
+            });
+
+            // Вызываем updateUIState один раз при загрузке, чтобы установить начальное состояние кнопок
+            updateUIState();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+body {
+    background-color: rgb(0, 0, 0);
+    font-family: Geologica;
+    margin: 0;
+    touch-action: none;
+    scrollbar-width: none;
+    overflow-x: hidden;
+    background-attachment: fixed;
+    -ms-overflow-style: none;
+    -ms-touch-action: none; 
+    user-select: none;
+    scrollbar-width: none; 
+}
+
+.container {
+    background-color: rgb(0, 0, 0);
+    width: 300px;
+    height: 300px;
+    margin-top: 75px;
+}
+
+.UtyaDuck {
+    width: 300px;
+}
+
+.go {
+    background-color: rgb(36, 122, 197);
+    font-family: Geologica;
+    color: white;
+    font-size: 18px;
+    border: none;
+    position: absolute;
+    bottom: 0;
+    width: 95%;
+    max-width: 400px;
+    height: 45px;
+    border-radius: 15px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+a {
+    font-style: none;
+    color: none;
+}
+
+.backmain {
+    background: #a8c8e0;
+    background: radial-gradient(circle, rgba(168, 200, 224, 1) 0%, rgba(17, 96, 207, 1) 100%);
+    width: 100%;
+    height: 300px;
+    scrollbar-width: none;
+    position: fixed;
+}
+
+.backutya {
+    background-color: #a8c8e0;
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    margin-top: 132px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.utya {
+    width: 170px;
+    margin-top: 125px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-left: -10px;
+}
+
+.user {
+    color: white;
+    font-family: Geologica;
+    font-size: 28px;
+    margin-top: -6
+    
+    
+    px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 230px;
+}
+
+.modebtn {
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.mode {
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 500px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-top: -30px;
+    margin-top: 270px;
+    overflow-y: auto;
+    position: fixed;
+}
+
+.active {
+    background-color: black;
+    border: none;
+    width: 100px;
+    height: 40px;
+    border-top-left-radius: 25px;
+    color: white;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.stenka {
+    background-color: black;
+    border: none;
+    width: 80px;
+    height: 40px;
+    color: white;
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.nft {
+    background-color: rgb(9, 9, 9);
+    width: 45vw;
+    max-width: 200px;
+    height: 52vw;
+    max-height: 220px;
+    border-radius: 15px;
+    margin-left: 5px;
+    margin-left: 20px;
+    margin-top: 10px;
+    display: inline-block; 
+}
+
+.info {
+    color: white;
+    margin-left: 10px;
+    margin-top: -20px;
+}
+
+.buy {
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 190px;
+    height: 30px;
+}
+
+.scrool {
+    width: 100%;
+    margin-left: -8px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    margin-top: 50px;
+}
+
+.cap {
+    width: 40vw;
+    margin-top: -15px;
+    max-width: 180px;
+    margin-left: 5px;
+}
