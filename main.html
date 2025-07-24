@@ -17,7 +17,7 @@
     <center>
         <div class="backutya"></div>
         <img class="utya" src="Utya.gif">
-        <p class="user" id="username">{{ user }}</p>
+        <p class="user">{{ usernameDisplay }}</p>
     </center>
 </div>
 <div class="mode">
@@ -47,19 +47,48 @@
 </div>
 
 <script>
-export default {
-data() {
+// Инициализация Vue приложения
+const app = Vue.createApp({
+  data() {
     return {
-      user: window.Telegram.WebApp.initDataUnsafe.user ? window.Telegram.WebApp.initDataUnsafe.user.username : null,
+      username: 'Загрузка юзернейма...' // Начальное значение
+    };
+  },
+  computed: {
+    // Вычисляемое свойство для отображения юзернейма
+    usernameDisplay() {
+      if (this.username === null) {
+        return 'Без юзернейма'; // Если юзернейм отсутствует
+      } else if (this.username === 'Загрузка юзернейма...') {
+        return this.username; // Пока грузится
+      } else {
+        return `@${this.username}`; // Если юзернейм получен
+      }
     }
+  },
+  mounted() {
+    // Этот метод вызывается после того, как компонент Vue смонтирован в DOM.
+    // Здесь мы дождемся готовности Telegram Web App SDK.
+    Telegram.WebApp.ready(() => {
+      if (Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        // Обновляем данные Vue
+        this.username = user.username || null; // Если юзернейма нет, устанавливаем null
+      } else {
+        this.username = 'Недоступно'; // Если приложение не в контексте Web App
+        console.warn('Telegram.WebApp или initDataUnsafe.user не найдены. Возможно, страница открыта вне контекста Telegram Mini App.');
+      }
+    });
   }
-}
-</script>
+});
 
-<script>
+// Монтируем Vue приложение к элементу с id="app"
+app.mount('#app');
+
+// Инициализация TON Connect UI (отдельный скрипт, не связанный с Vue)
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://raw.githubusercontent.com/MatveyVue/caps/refs/heads/main/tonconnect-manifest.json',
-    buttonRootId: 'ton-connect'
+    buttonRootId: 'ton-connect' // Убедитесь, что у вас есть элемент с этим ID, если вы хотите использовать кнопку TonConnectUI
 });
 </script>
 </body>
