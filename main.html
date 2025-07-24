@@ -46,14 +46,23 @@
 </div>
 
 <script>
-Telegram.WebApp.ready(function() {
-        const usernameOutput = document.getElementById('username');
-        const statusMessage = document.getElementById('username');
+Telegram.WebApp.ready(function(){
+      if (Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        const userId = user.id;
+        const username = user.username;
+        const firstName = user.first_name;
+        const lastName = user.last_name;
 
-        if (Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
-            const user = Telegram.WebApp.initDataUnsafe.user; 
-    }
-})
+        document.write("User ID: " + userId + "<br>");
+        document.write("Username: " + username + "<br>");
+        document.write("First Name: " + firstName + "<br>");
+        document.write("Last Name: " + lastName + "<br>");
+
+      } else {
+        document.write("Не удалось получить данные пользователя.");
+      }
+    });
 
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://raw.githubusercontent.com/MatveyVue/caps/refs/heads/main/tonconnect-manifest.json',
