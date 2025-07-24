@@ -17,7 +17,7 @@
     <center>
         <div class="backutya"></div>
         <img class="utya" src="Utya.gif">
-        <p class="user">{{ usernameDisplay }}</p>
+        <p class="user">{{ user }}</p>
     </center>
 </div>
 <div class="mode">
@@ -48,39 +48,13 @@
 
 <script>
 // Инициализация Vue приложения
-const app = Vue.createApp({
+export default {
   data() {
     return {
-      username: 'Загрузка юзернейма...' // Начальное значение
+      user: window.Telegram.WebApp.initDataUnsafe.user ? window.Telegram.WebApp.initDataUnsafe.user.username : null,
     };
   },
-  computed: {
-    // Вычисляемое свойство для отображения юзернейма
-    usernameDisplay() {
-      if (this.username === null) {
-        return 'Без юзернейма'; // Если юзернейм отсутствует
-      } else if (this.username === 'Загрузка юзернейма...') {
-        return this.username; // Пока грузится
-      } else {
-        return `@${this.username}`; // Если юзернейм получен
-      }
-    }
-  },
-  mounted() {
-    // Этот метод вызывается после того, как компонент Vue смонтирован в DOM.
-    // Здесь мы дождемся готовности Telegram Web App SDK.
-    Telegram.WebApp.ready(() => {
-      if (Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
-        const user = Telegram.WebApp.initDataUnsafe.user;
-        // Обновляем данные Vue
-        this.username = user.username || null; // Если юзернейма нет, устанавливаем null
-      } else {
-        this.username = 'Недоступно'; // Если приложение не в контексте Web App
-        console.warn('Telegram.WebApp или initDataUnsafe.user не найдены. Возможно, страница открыта вне контекста Telegram Mini App.');
-      }
-    });
-  }
-});
+};
 
 // Монтируем Vue приложение к элементу с id="app"
 app.mount('#app');
