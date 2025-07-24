@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,7 +17,7 @@
     <center>
         <div class="backutya"></div>
         <img class="utya" src="Utya.gif">
-        <p class="user" id="username"></p>
+        <p class="user" id="username">{{ user }}</p>
     </center>
 </div>
 <div class="mode">
@@ -46,24 +47,16 @@
 </div>
 
 <script>
-Telegram.WebApp.ready(function(){
-      if (Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
-        const user = Telegram.WebApp.initDataUnsafe.user;
-        const userId = user.id;
-        const username = user.username;
-        const firstName = user.first_name;
-        const lastName = user.last_name;
+export default {
+data() {
+    return {
+      user: window.Telegram.WebApp.initDataUnsafe.user ? window.Telegram.WebApp.initDataUnsafe.user.username : null,
+    }
+  }
+}
+</script>
 
-        document.write("User ID: " + userId + "<br>");
-        document.write("Username: " + username + "<br>");
-        document.write("First Name: " + firstName + "<br>");
-        document.write("Last Name: " + lastName + "<br>");
-
-      } else {
-        document.write("Не удалось получить данные пользователя.");
-      }
-    });
-
+<script>
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
     manifestUrl: 'https://raw.githubusercontent.com/MatveyVue/caps/refs/heads/main/tonconnect-manifest.json',
     buttonRootId: 'ton-connect'
